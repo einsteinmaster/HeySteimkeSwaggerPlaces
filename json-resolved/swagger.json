@@ -1,0 +1,163 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Rest API for Places at HeySteimke App",
+    "version" : "1.0.0",
+    "title" : "HeySteimkePlaces",
+    "contact" : {
+      "name" : "Marius Schlueter",
+      "email" : "marius.schlueter@intecelektro.de"
+    }
+  },
+  "host" : "rkp.intecelektro.de:30000",
+  "basePath" : "/api",
+  "schemes" : [ "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/places" : {
+      "get" : {
+        "summary" : "Returns ids of existing Places",
+        "operationId" : "getAvaiPlaceIds",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully returning array of existing ids",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "type" : "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/place/{id}" : {
+      "get" : {
+        "summary" : "Returns Specific Place by id",
+        "operationId" : "getPlace",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Id of Place to get",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Found Place and returning",
+            "schema" : {
+              "$ref" : "#/definitions/Place"
+            }
+          },
+          "404" : {
+            "description" : "User not found"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Replace existing Place",
+        "operationId" : "replacePlace",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Id of Place to get",
+          "required" : true,
+          "type" : "integer"
+        }, {
+          "in" : "body",
+          "name" : "user",
+          "description" : "Place to replace",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Place"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "404" : {
+            "description" : "Item not found"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove Place",
+        "operationId" : "deletePlace",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Id of Place to delete",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "404" : {
+            "description" : "Place not found"
+          }
+        }
+      }
+    },
+    "/place" : {
+      "post" : {
+        "summary" : "Add Place",
+        "operationId" : "addPlace",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "place",
+          "description" : "place to add",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Place"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Place" : {
+      "required" : [ "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "example" : 123,
+          "description" : "Identifier"
+        },
+        "type" : {
+          "type" : "string",
+          "example" : "user",
+          "description" : "State",
+          "enum" : [ "public", "private" ]
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "Marius",
+          "description" : "Name of Place"
+        },
+        "creatorId" : {
+          "type" : "integer",
+          "example" : 30,
+          "description" : "id of creator"
+        },
+        "members" : {
+          "type" : "array",
+          "example" : [ 1, 2, 3 ],
+          "description" : "ids of members",
+          "items" : {
+            "type" : "integer"
+          }
+        }
+      }
+    }
+  }
+}
